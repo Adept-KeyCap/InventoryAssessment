@@ -74,4 +74,12 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+/InventoryAssessment/.vsconfig
+/InventoryAssessment/Logs
+*.wlt
+/InventoryAssessment/Library
+/InventoryAssessment/Temp
+/InventoryAssessment/Library/Artifacts
+
 # End of https://www.toptal.com/developers/gitignore/api/unity
+/InventorySystem/Library
