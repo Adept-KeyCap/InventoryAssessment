@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 
-public class DragHandler : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler
+public class ItemLogic : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler
 {
     public Canvas canvas;
     private RectTransform rectTransform;
@@ -31,7 +31,7 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         //if the item is dragged out of the slot, set the slot to empty
         if (transform.parent != null)
         {
-            transform.parent.GetComponent<InventorySlot>().isOccupied = false;
+            transform.parent.GetComponent<InventorySlot>().inUse = false;
             transform.parent.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0.09f };
         }
     }

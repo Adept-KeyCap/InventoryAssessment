@@ -7,66 +7,66 @@ using Image = UnityEngine.UI.Image;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-    public enum SlotState { Basic, Potion, Weapon, Shield, Power,BasicB }
-    public SlotState currentState = SlotState.Basic;
+    public enum SlotState { General, Potion, Weapon, Shield, Power,BasicB }
+    public SlotState currentState = SlotState.General;
     
-    public bool isOccupied = false;
+    public bool inUse = false;
     //if the slot is empty and the item is of the correct tag, let the item be dropped in the slot if not return the item to its original position
     public void OnDrop(PointerEventData eventData)
     {
         
         if (eventData.pointerDrag != null)
         {
-            DragHandler dragNDrop = eventData.pointerDrag.GetComponent<DragHandler>();
+            ItemLogic dragNDrop = eventData.pointerDrag.GetComponent<ItemLogic>();
             if (dragNDrop != null)
             {
-                if (currentState == SlotState.Potion && dragNDrop.gameObject.tag == "Potion" && !isOccupied)
+                if (currentState == SlotState.Potion && dragNDrop.gameObject.tag == "Potion" && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
                     gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
-                    isOccupied = true;
+                    inUse = true;
                 }
-                else if (currentState == SlotState.Weapon && dragNDrop.gameObject.tag == "Weapon" && !isOccupied)
+                else if (currentState == SlotState.Weapon && dragNDrop.gameObject.tag == "Weapon" && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
                     gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
-                    isOccupied = true;
+                    inUse = true;
                 }
-                else if (currentState == SlotState.Shield && dragNDrop.gameObject.tag == "Shield" && !isOccupied)
+                else if (currentState == SlotState.Shield && dragNDrop.gameObject.tag == "Shield" && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
                     gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
-                    isOccupied = true;
+                    inUse = true;
                 }
-                else if (currentState == SlotState.Power && dragNDrop.gameObject.tag == "Power" && !isOccupied)
+                else if (currentState == SlotState.Power && dragNDrop.gameObject.tag == "Power" && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
                     gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
-                    isOccupied = true;
+                    inUse = true;
                 }
-                else if (currentState == SlotState.Basic && !isOccupied)
+                else if (currentState == SlotState.General && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
                     gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
-                    isOccupied = true;
+                    inUse = true;
                 }
-                else if (currentState == SlotState.BasicB && dragNDrop.gameObject.tag == "Basic" && !isOccupied)
+                else if (currentState == SlotState.BasicB && dragNDrop.gameObject.tag == "Basic" && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
                     gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
-                    isOccupied = true;
+                    inUse = true;
                 }
                 else
                 {
