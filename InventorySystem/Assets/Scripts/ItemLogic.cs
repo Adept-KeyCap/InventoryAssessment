@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,7 +14,9 @@ public class ItemLogic : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
     public Canvas canvas;
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    public Vector3 startPosition;
+    [HideInInspector] public Vector3 startPosition;
+    public InventorySlot currentSlot;
+    public InventorySlot lastSlot;
     public TextMeshProUGUI description;
     public float value = 10;
 
@@ -21,24 +24,27 @@ public class ItemLogic : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-        description = GameObject.Find("Info").GetComponent<TextMeshProUGUI>();
+        description = GameObject.Find("ItemDescription").GetComponent<TextMeshProUGUI>();
+        currentSlot = GetComponentInParent<InventorySlot>();
+        lastSlot = currentSlot;
+        transform.position = lastSlot.transform.position;
     }
-    
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         canvasGroup.alpha = .6f;
         canvasGroup.blocksRaycasts = false;
+        currentSlot = null;
         //if the item is dragged out of the slot, set the slot to empty
         if (transform.parent != null)
         {
             transform.parent.GetComponent<InventorySlot>().inUse = false;
-            transform.parent.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0.09f };
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;        
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -47,14 +53,26 @@ public class ItemLogic : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
         canvasGroup.blocksRaycasts = true;
     }
 
+
     public void OnPointerDown(PointerEventData eventData)
     {
         ShowDescription();
+        lastSlot = currentSlot;
     }
     //when the item is deselected (by Selectable UI) the description is set to empty
     public void OnPointerUp(PointerEventData eventData)
     {
         description.text = "";
+
+        if (currentSlot == null || currentSlot.currentState.ToString() != gameObject.tag)
+        {
+            currentSlot = lastSlot;
+            transform.position = lastSlot.transform.position;
+        }
+        else 
+        { 
+            lastSlot = currentSlot;
+        }
     }
     
     //when the item is selected (by Selectable UI) ShowDescription is called
@@ -77,9 +95,6 @@ public class ItemLogic : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
                 break;
             case "Basic":
                 description.text = "Basic: No special effects";
-                break;
-            case "BasicB":
-                description.text = "BasicB: No special effects";
                 break;
         }
     }

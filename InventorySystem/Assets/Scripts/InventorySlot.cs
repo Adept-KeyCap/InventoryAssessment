@@ -7,7 +7,7 @@ using Image = UnityEngine.UI.Image;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-    public enum SlotState { General, Potion, Weapon, Shield, Power,BasicB }
+    public enum SlotState { General, Potion, Weapon, Shield, Power }
     public SlotState currentState = SlotState.General;
     
     public bool inUse = false;
@@ -23,57 +23,57 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 if (currentState == SlotState.Potion && dragNDrop.gameObject.tag == "Potion" && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
+                    dragNDrop.currentSlot = this;
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
-                    gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
                     inUse = true;
                 }
                 else if (currentState == SlotState.Weapon && dragNDrop.gameObject.tag == "Weapon" && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
+                    dragNDrop.currentSlot = this;
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
-                    gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
                     inUse = true;
                 }
                 else if (currentState == SlotState.Shield && dragNDrop.gameObject.tag == "Shield" && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
+                    dragNDrop.currentSlot = this;
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
-                    gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
                     inUse = true;
                 }
                 else if (currentState == SlotState.Power && dragNDrop.gameObject.tag == "Power" && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
+                    dragNDrop.currentSlot = this;
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
-                    gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
                     inUse = true;
                 }
                 else if (currentState == SlotState.General && !inUse)
                 {
                     dragNDrop.transform.SetParent(transform);
+                    dragNDrop.currentSlot = this;
                     dragNDrop.transform.position = transform.position;
                     dragNDrop.startPosition = transform.position;
-                    gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
                     inUse = true;
                 }
-                else if (currentState == SlotState.BasicB && dragNDrop.gameObject.tag == "Basic" && !inUse)
+                else if(!inUse && dragNDrop.gameObject.tag != currentState.ToString())
                 {
-                    dragNDrop.transform.SetParent(transform);
-                    dragNDrop.transform.position = transform.position;
-                    dragNDrop.startPosition = transform.position;
-                    gameObject.GetComponent<Image>().color = new Color() { r = 1, g = 1, b = 1, a = 0 };
-                    inUse = true;
+                    //return the item to the last slot it was into position
+                    dragNDrop.currentSlot = null;
+                    dragNDrop.transform.position = Vector3.zero;
+                    Debug.Log(dragNDrop.startPosition);
+
                 }
                 else
                 {
                     //return the item to the last slot it was into position
-                    dragNDrop.transform.position = dragNDrop.startPosition;
+                    dragNDrop.currentSlot = null;
+                    dragNDrop.transform.position = Vector3.zero;
                     Debug.Log(dragNDrop.startPosition);
-
                 }
             }
         }
